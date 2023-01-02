@@ -3,15 +3,9 @@ using System.Collections.Generic;
 
 namespace Web.Models;
 
-public partial class Area
+public partial class DynamicForm
 {
     public int Id { get; set; }
-
-    public int CountryId { get; set; }
-
-    public int StateId { get; set; }
-
-    public int CityId { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -37,11 +31,5 @@ public partial class Area
 
     public int? DeletedBy { get; set; }
 
-    public virtual City City { get; set; } = null!;
-
-    public virtual Country Country { get; set; } = null!;
-
-    public virtual State State { get; set; } = null!;
-
-    public virtual ICollection<Subscription> Subscriptions { get; } = new List<Subscription>();
+    public virtual ICollection<DynamicFormInput> DynamicFormInputs { get; } = new List<DynamicFormInput>();
 }

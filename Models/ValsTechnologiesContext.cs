@@ -25,6 +25,14 @@ public partial class ValsTechnologiesContext : DbContext
 
     public virtual DbSet<Country> Countries { get; set; }
 
+    public virtual DbSet<DynamicForm> DynamicForms { get; set; }
+
+    public virtual DbSet<DynamicFormInput> DynamicFormInputs { get; set; }
+
+    public virtual DbSet<DynamicFormInputAttribute> DynamicFormInputAttributes { get; set; }
+
+    public virtual DbSet<DynamicFormInputDataSource> DynamicFormInputDataSources { get; set; }
+
     public virtual DbSet<Package> Packages { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -46,15 +54,11 @@ public partial class ValsTechnologiesContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-     /*optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS01;Database=ValsTechnologies;integrated security=true;TrustServerCertificate=True");*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Area>(entity =>
         {
-            entity.Property(e => e.AccessUrl)
-                .HasMaxLength(500)
-                .HasColumnName("AccessURL");
             entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
             entity.Property(e => e.DeletedDateTime).HasColumnType("datetime");
             entity.Property(e => e.Status).HasMaxLength(10);
@@ -178,6 +182,60 @@ public partial class ValsTechnologiesContext : DbContext
             entity.Property(e => e.UtcupdatedDateTime)
                 .HasColumnType("datetime")
                 .HasColumnName("UTCUpdatedDateTime");
+        });
+
+        modelBuilder.Entity<DynamicForm>(entity =>
+        {
+            entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(10);
+            entity.Property(e => e.Title).HasMaxLength(250);
+            entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.UtccreatedDateTime)
+                .HasColumnType("datetime")
+                .HasColumnName("UTCCreatedDateTime");
+            entity.Property(e => e.UtcdeletedDateTime)
+                .HasColumnType("datetime")
+                .HasColumnName("UTCDeletedDateTime");
+            entity.Property(e => e.UtcupdatedDateTime)
+                .HasColumnType("datetime")
+                .HasColumnName("UTCUpdatedDateTime");
+        });
+
+        modelBuilder.Entity<DynamicFormInput>(entity =>
+        {
+            entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.DeletedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Name).HasMaxLength(250);
+            entity.Property(e => e.Status).HasMaxLength(10);
+            entity.Property(e => e.Type).HasMaxLength(250);
+            entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.UtccreatedDateTime)
+                .HasColumnType("datetime")
+                .HasColumnName("UTCCreatedDateTime");
+            entity.Property(e => e.UtcdeletedDateTime)
+                .HasColumnType("datetime")
+                .HasColumnName("UTCDeletedDateTime");
+            entity.Property(e => e.UtcupdatedDateTime)
+                .HasColumnType("datetime")
+                .HasColumnName("UTCUpdatedDateTime");
+
+            entity.HasOne(d => d.DynamicForm).WithMany(p => p.DynamicFormInputs)
+                .HasForeignKey(d => d.DynamicFormId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DynamicFormInputs_DynamicForms");
+        });
+
+        modelBuilder.Entity<DynamicFormInputAttribute>(entity =>
+        {
+            entity.Property(e => e.AttrKey).HasMaxLength(250);
+            entity.Property(e => e.AttrValue).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<DynamicFormInputDataSource>(entity =>
+        {
+            entity.Property(e => e.Key).HasMaxLength(250);
+            entity.Property(e => e.Value).HasMaxLength(250);
         });
 
         modelBuilder.Entity<Package>(entity =>

@@ -3,17 +3,19 @@ using System.Collections.Generic;
 
 namespace Web.Models;
 
-public partial class Area
+public partial class DynamicFormInput
 {
     public int Id { get; set; }
 
-    public int CountryId { get; set; }
+    public int DynamicFormId { get; set; }
 
-    public int StateId { get; set; }
+    public string Name { get; set; } = null!;
 
-    public int CityId { get; set; }
+    public string Type { get; set; } = null!;
 
-    public string Title { get; set; } = null!;
+    public bool IsRequired { get; set; }
+
+    public int SequenceOrder { get; set; }
 
     public string Status { get; set; } = null!;
 
@@ -37,11 +39,5 @@ public partial class Area
 
     public int? DeletedBy { get; set; }
 
-    public virtual City City { get; set; } = null!;
-
-    public virtual Country Country { get; set; } = null!;
-
-    public virtual State State { get; set; } = null!;
-
-    public virtual ICollection<Subscription> Subscriptions { get; } = new List<Subscription>();
+    public virtual DynamicForm DynamicForm { get; set; } = null!;
 }

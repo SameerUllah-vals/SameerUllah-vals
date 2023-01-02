@@ -13,7 +13,7 @@
 		<link href="~/M1/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="~/M1/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="~/M1/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-		<!--end::Global Stylesheets Bundle-->
+		@await Html.PartialAsync("CommonStyles")
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -4853,23 +4853,16 @@
 		</div>
 		<!--end::Scrolltop-->
 		<!--end::Main-->
-		<script> var hostUrl = "assets/";</script>
-		<!--begin::Javascript-->
+		<script> var hostUrl = "m1/assets/";</script>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-		
-		<!--begin::Global Javascript Bundle(used by all pages)-->
 		<script src="~/M1/assets/plugins/global/plugins.bundle.js"></script>
 		<script src="~/M1/assets/js/scripts.bundle.js"></script>
-		<!--end::Global Javascript Bundle-->
-		<!--begin::Page Vendors Javascript(used by this page)-->
 		<script src="~/M1/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 		<script src="~/M1/assets/js/custom/widgets.js"></script>
 		<script src="~/M1/assets/js/custom/apps/chat/chat.js"></script>
 		<script src="~/M1/assets/js/custom/modals/create-app.js"></script>
 		<script src="~/M1/assets/js/custom/modals/upgrade-plan.js"></script>
-		
-	
-		@await RenderSectionAsync("Scripts", required: false)
+		@await Html.PartialAsync("CommonScripts")	
 	</body>
 	<!--end::Body-->
 </html>

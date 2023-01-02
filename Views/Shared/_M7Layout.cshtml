@@ -28,7 +28,7 @@ License: For each use you must have a valid license purchased only from above li
 		<!--begin::Global Stylesheets Bundle(used by all pages)-->
 		<link href="~/m7/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="~/m7/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-		<!--end::Global Stylesheets Bundle-->
+		@await Html.PartialAsync("CommonStyles")
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -7289,22 +7289,15 @@ License: For each use you must have a valid license purchased only from above li
 		</div>
 		<!--end::Scrolltop-->
 		<!--end::Main-->
-		<script>var hostUrl = "~/m7/assets/";</script>
-		<!--begin::Javascript-->
-		<!--begin::Global Javascript Bundle(used by all pages)-->
+		<script>var hostUrl = "m7/assets/";</script>
 		<script src="~/m7/assets/plugins/global/plugins.bundle.js"></script>
 		<script src="~/m7/assets/js/scripts.bundle.js"></script>
-		<!--end::Global Javascript Bundle-->
-		<!--begin::Page Vendors Javascript(used by this page)-->
 		<script src="~/m7/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
-		<!--end::Page Vendors Javascript-->
-		<!--begin::Page Custom Javascript(used by this page)-->
 		<script src="~/m7/assets/js/custom/widgets.js"></script>
 		<script src="~/m7/assets/js/custom/apps/chat/chat.js"></script>
 		<script src="~/m7/assets/js/custom/modals/create-app.js"></script>
 		<script src="~/m7/assets/js/custom/modals/upgrade-plan.js"></script>
-		<!--end::Page Custom Javascript-->
-		<!--end::Javascript-->
+		@await Html.PartialAsync("CommonScripts")	
 	</body>
 	<!--end::Body-->
 </html>
