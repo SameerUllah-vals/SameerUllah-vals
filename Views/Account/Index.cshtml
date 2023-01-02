@@ -1,0 +1,37 @@
+﻿
+
+	<div class="post d-flex flex-column-fluid" id="kt_post">
+			<div id="kt_content_container" class="container-xxl">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title fs-3 fw-bolder">Create Form</div>
+					</div>
+					<form id="kt_project_settings_form" class="form">
+
+						<div class="card-body p-9">
+							<div class="row mb-8">
+
+								<div class="col-xl-12">
+									<div class="build-wrap form-wrapper-div"></div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer d-flex justify-content-end py-6 px-9">
+							<button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+							<button type="submit" class="btn btn-primary" id="kt_project_settings_submit">Save Changes</button>
+						</div>
+					</form>
+				</div>
+			</div>			
+	</div>
+
+	@section Scripts{
+		<script>
+			$(function(){
+			  $('.build-wrap').formBuilder({
+				  scrollToFieldOnAdd:false,
+				sortableControls: true,
+			  });
+		});
+		</script>
+	}
