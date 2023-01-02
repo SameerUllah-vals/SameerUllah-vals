@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/obj/Web.csproj.nuget.dgspec.json
+/obj/project.nuget.cache
+/obj/project.assets.json
+/obj/Debug/net7.0/Web.GeneratedMSBuildEditorConfig.editorconfig
+/obj/Debug/net7.0/Web.assets.cache
+/obj/Debug/net7.0/project.razor.vs.json
+/.vs/Web/v17/.suo
+/Views/Account/Index.cshtml
+/.vs/Web/FileContentIndex/8db8cfaa-a36c-4a5d-8672-913b47585c62.vsidx
+/.vs/Web/FileContentIndex/6dbd8527-73c4-474e-889a-25cced8de9f3.vsidx
+/.vs/Web/FileContentIndex/625f24b0-7e43-4d47-8c16-0e058f31b0e0.vsidx
+/.vs/Web/FileContentIndex/590d7c11-381d-4d7b-ad73-571589a7faf4.vsidx
+/.vs/Web/FileContentIndex/100ce0f8-dc60-44ca-961c-f80b2e3f8555.vsidx
+/.vs/Web/FileContentIndex/merges/45ed7edf-af53-4b62-a3ef-806b71bd8f45.vsidx
+/.vs/Web/FileContentIndex/a553bc04-2bec-43fa-bab3-cc11602673f3.vsidx
+/.vs/Web/FileContentIndex
