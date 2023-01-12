@@ -29,6 +29,8 @@ License: For each use you must have a valid license purchased only from above li
 		<link href="~/m7/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="~/m7/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		@await Html.PartialAsync("CommonStyles")
+		@RenderSection("LinkStyleSection", required: false)    
+		@RenderSection("InLineStyleSection", required: false) 
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -7298,6 +7300,8 @@ License: For each use you must have a valid license purchased only from above li
 		<script src="~/m7/assets/js/custom/modals/create-app.js"></script>
 		<script src="~/m7/assets/js/custom/modals/upgrade-plan.js"></script>
 		@await Html.PartialAsync("CommonScripts")	
+		@await RenderSectionAsync("LinkScriptSection", required: false);
+		@await RenderSectionAsync("InLineScriptSection", required: false);
 	</body>
 	<!--end::Body-->
 </html>

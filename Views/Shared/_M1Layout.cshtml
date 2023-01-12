@@ -14,6 +14,8 @@
 		<link href="~/M1/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="~/M1/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		@await Html.PartialAsync("CommonStyles")
+		@RenderSection("LinkStyleSection", required: false)    
+		@RenderSection("InLineStyleSection", required: false)    
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -4857,12 +4859,15 @@
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 		<script src="~/M1/assets/plugins/global/plugins.bundle.js"></script>
 		<script src="~/M1/assets/js/scripts.bundle.js"></script>
-		<script src="~/M1/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+		<script src="~/M1/assets/js/custom/apps/subscriptions/add/advanced.js"></script>
 		<script src="~/M1/assets/js/custom/widgets.js"></script>
+		<script src="~/M1/assets/js/custom/modals/new-card.js"></script>
 		<script src="~/M1/assets/js/custom/apps/chat/chat.js"></script>
 		<script src="~/M1/assets/js/custom/modals/create-app.js"></script>
 		<script src="~/M1/assets/js/custom/modals/upgrade-plan.js"></script>
-		@await Html.PartialAsync("CommonScripts")	
+		@await Html.PartialAsync("CommonScripts")
+		@await RenderSectionAsync("LinkScriptSection", required: false);
+		@await RenderSectionAsync("InLineScriptSection", required: false);
 	</body>
 	<!--end::Body-->
 </html>

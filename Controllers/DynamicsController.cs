@@ -12,7 +12,6 @@ namespace Web.Controllers
             return View();
         }
         [HttpPost]
-        [Route("Listener")]
         public IActionResult Listener()
         {
             try
@@ -59,17 +58,14 @@ namespace Web.Controllers
                 throw ex;
             }
         }
-        [Route("GetRecord")]
         public DynamicForm GetRecord(int? id)
         {
             return dbContext.DynamicForms.FirstOrDefault(o => o.Id == id && o.IsDeleted == false);                        
         }
-        [Route("Add")]
         public IActionResult Add()
         {
             return View("Form", new DynamicForm());
         }
-        [Route("View")]
         public IActionResult View(int? id)
         {
             var Record = GetRecord(id);
@@ -83,7 +79,6 @@ namespace Web.Controllers
                 return Redirect(ViewBag.WebsiteURL + "dynamics/add");
             }
         }
-        [Route("Edit")]
         public IActionResult Edit(int? id)
         {
             var Record = GetRecord(id);
@@ -98,7 +93,6 @@ namespace Web.Controllers
                 return Redirect(ViewBag.WebsiteURL + "dynamics/add");
             }
         }
-        [Route("Save")]
         public JsonResult Save(DynamicForm modelRecord)
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
@@ -168,7 +162,6 @@ namespace Web.Controllers
             return Json(ajaxResponse);
         }
         [HttpPost]
-        [Route("Delete")]
         public JsonResult Delete(int? _value)
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
@@ -218,7 +211,6 @@ namespace Web.Controllers
             return Json(ajaxResponse);
         }
         [HttpGet]
-        [Route("GetStates")]
         public JsonResult GetStates(int? Id)
         {
             return Json(dbContext.States.Where(x => x.CountryId == Id && x.Status.Equals(EnumStatus.Enable) && !x.IsDeleted).Select(x => new { x.Id, x.Title }).ToList());

@@ -1,5 +1,166 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model DynamicForm
+<div class="post d-flex flex-column-fluid" id="kt_post">
+
+	<div id="kt_content_container" class="container-xxl">
+
+		<div class="d-flex flex-column flex-lg-row">
+
+			<div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
+
+				<form class="form" action="#" id="kt_subscriptions_create_new">
+					<div class="card card-flush pt-3 mb-5 mb-lg-10">
+					
+						<div class="card-header">
+							
+							<div class="card-title">
+								<h2 class="fw-bolder">Create custom forms</h2>
+							</div>
+							
+						</div>
+					
+						<div class="card-body pt-0">
+							<div class="d-flex flex-column mb-15 fv-row">
+
+								@*<div class="fs-5 fw-bolder form-label mb-3">
+									Custom fields
+									<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true" data-bs-content="Add custom fields to the billing invoice."></i>
+								</div>*@
+								<div class="d-flex flex-column mb-10 fv-row">
+
+									<div class="fs-5 fw-bolder form-label mb-3">
+										Form name										
+									</div>
+
+									<input asp-for="Title" class="form-control form-control-solid rounded-3" type="text">
+								</div>
+								<div class="table-responsive">
+									<!--begin::Table-->
+									<table id="kt_create_new_custom_fields" class="table align-middle table-row-bordered fw-bold fs-6 gy-5">
+									
+										<thead>
+											<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+												<th class="pt-0">Input type</th>
+												<th class="pt-0">Name</th>											
+												<th class="pt-0">Sequence order</th>
+												<th class="pt-0">Is required</th>
+												<th class="pt-0 text-end">Remove</th>
+											</tr>
+										</thead>										
+										<tbody>
+											<tr>
+												<td>
+													<input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
+												</td>
+												<td>
+													<input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+												</td>
+												<td>
+													<input type="text" name="DynamicFormInputs[0].SequenceOrder" class="form-control form-control-solid" value="" />
+												</td>
+												<td>
+													<label class="form-check form-check-custom form-check-solid">
+														<input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" value="1" />
+													</label>
+												</td>
+												<td class="text-end">
+													<button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
+														
+														<span class="svg-icon svg-icon-3">
+															<i class="fa fa-trash"></i>
+														</span>
+														
+													</button>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="5">													
+													<table id="kt_create_new_custom_fields" class="table align-middle table-row-dashed fw-bold fs-6 gy-5">
+
+														<thead>
+															<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+																<th class="pt-0">Attribute Name</th>
+																<th class="pt-0">Attribute Value</th>
+																<th class="pt-0">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>
+																	<input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
+																</td>
+																<td>
+																	<input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+																</td>
+																<td>
+																	<button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3">
+
+																		<span class="svg-icon svg-icon-3">
+																			<i class="fa fa-plus"></i>
+																		</span>
+
+																	</button>
+																</td>
+															</tr>		
+															<tr>
+																<td>
+																	<input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
+																</td>
+																<td>
+																	<input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+																</td>
+																<td>
+																	<button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3">
+
+																		<span class="svg-icon svg-icon-3">
+																			<i class="fa fa-plus"></i>
+																		</span>
+
+																	</button>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	<input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
+																</td>
+																<td>
+																	<input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+																</td>
+																<td>
+																	<button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3">
+
+																		<span class="svg-icon svg-icon-3">
+																			<i class="fa fa-plus"></i>
+																		</span>
+
+																	</button>
+																</td>
+															</tr>
+														</tbody>
+
+													</table>
+													
+												</td>
+											</tr>
+										</tbody>
+								
+									</table>
+								
+								</div>
+								
+								<button type="button" class="btn btn-light-primary me-auto" id="kt_create_new_custom_fields_add">Add Input</button>
+								
+							</div>
+							
+													
+						</div>
+						
+					</div>
+				</form>
+			</div>
+			
+		
+		</div>
+
+	</div>
+	
+</div>
