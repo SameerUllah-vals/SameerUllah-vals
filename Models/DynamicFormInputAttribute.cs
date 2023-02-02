@@ -12,4 +12,6 @@ public partial class DynamicFormInputAttribute
     public string AttrKey { get; set; } = null!;
 
     public string AttrValue { get; set; } = null!;
+
+    public virtual DynamicFormInput DynamicFormInput { get; set; } = null!;
 }

@@ -12,4 +12,6 @@ public partial class DynamicFormInputDataSource
     public string Key { get; set; } = null!;
 
     public string Value { get; set; } = null!;
+
+    public virtual DynamicFormInput DynamicFormInput { get; set; } = null!;
 }

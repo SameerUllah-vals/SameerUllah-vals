@@ -59,7 +59,34 @@
 									<div class="menu-content pb-2">
 										<span class="menu-section text-muted text-uppercase fs-8 ls-1">Dashboard</span>
 									</div>
+									
 								</div>
+								<!--binding dynamic menu-->
+								<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+									<span class="menu-link">
+										<span class="menu-title">Dynamics</span>
+										<span class="menu-arrow"></span>
+									</span>
+										<div class="menu-sub menu-sub-accordion menu-active-bg">
+												@foreach(var nav in  ViewBag.Navigation)
+												{
+												<div class="menu-item">
+													<a class="menu-link" data-itemid="@nav.Id" href="@Url.Action("Add","Rendering", new {Id=@nav.Id})">
+														<span class="menu-bullet">
+															<span class="bullet bullet-dot"></span>
+														</span>
+														<span class="menu-title">@nav.Title</span>
+													</a>
+												</div>
+												}
+											</div>
+								</div>
+								@*<div class="menu-item">
+								<ul>
+									<li>
+										<a class="menu-link" data-itemid="@nav.Id"><span class="menu-title">@nav.Title</span></a></li>
+									</ul>
+							    </div>*@
 								@*<div class="menu-item">
 									<a class="menu-link" href="../../demo1/dist/index.html">
 										<span class="menu-icon">
@@ -4859,7 +4886,7 @@
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 		<script src="~/M1/assets/plugins/global/plugins.bundle.js"></script>
 		<script src="~/M1/assets/js/scripts.bundle.js"></script>
-		<script src="~/M1/assets/js/custom/apps/subscriptions/add/advanced.js"></script>
+	@*	<script src="~/M1/assets/js/custom/apps/subscriptions/add/advanced.js"></script>*@
 		<script src="~/M1/assets/js/custom/widgets.js"></script>
 		<script src="~/M1/assets/js/custom/modals/new-card.js"></script>
 		<script src="~/M1/assets/js/custom/apps/chat/chat.js"></script>

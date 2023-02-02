@@ -33,6 +33,10 @@ public partial class ValsTechnologiesContext : DbContext
 
     public virtual DbSet<DynamicFormInputDataSource> DynamicFormInputDataSources { get; set; }
 
+    public virtual DbSet<DynamicFormMaster> DynamicFormMasters { get; set; }
+
+    public virtual DbSet<DynamicFormMasterDetail> DynamicFormMasterDetails { get; set; }
+
     public virtual DbSet<Package> Packages { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -230,12 +234,45 @@ public partial class ValsTechnologiesContext : DbContext
         {
             entity.Property(e => e.AttrKey).HasMaxLength(250);
             entity.Property(e => e.AttrValue).HasMaxLength(250);
+
+            entity.HasOne(d => d.DynamicFormInput).WithMany(p => p.DynamicFormInputAttributes)
+                .HasForeignKey(d => d.DynamicFormInputId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DynamicFormInputAttributes_DynamicFormInputs");
         });
 
         modelBuilder.Entity<DynamicFormInputDataSource>(entity =>
         {
             entity.Property(e => e.Key).HasMaxLength(250);
             entity.Property(e => e.Value).HasMaxLength(250);
+
+            entity.HasOne(d => d.DynamicFormInput).WithMany(p => p.DynamicFormInputDataSources)
+                .HasForeignKey(d => d.DynamicFormInputId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DynamicFormInputDataSources_DynamicFormInputs");
+        });
+
+        modelBuilder.Entity<DynamicFormMaster>(entity =>
+        {
+            entity.ToTable("DynamicFormMaster");
+
+            entity.Property(e => e.CreatedDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<DynamicFormMasterDetail>(entity =>
+        {
+            entity.ToTable("DynamicFormMasterDetail");
+
+            entity.Property(e => e.DynamicFormInputValue).HasMaxLength(200);
+
+            entity.HasOne(d => d.DynamicFormMaster).WithMany(p => p.DynamicFormMasterDetails)
+                .HasForeignKey(d => d.DynamicFormMasterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DynamicFormMasterDetail_DynamicFormMaster");
         });
 
         modelBuilder.Entity<Package>(entity =>

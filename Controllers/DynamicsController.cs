@@ -60,7 +60,7 @@ namespace Web.Controllers
         }
         public DynamicForm GetRecord(int? id)
         {
-            return dbContext.DynamicForms.FirstOrDefault(o => o.Id == id && o.IsDeleted == false);                        
+            return dbContext.DynamicForms.FirstOrDefault(o => o.Id == id && o.IsDeleted == false);
         }
         public IActionResult Add()
         {
@@ -93,7 +93,8 @@ namespace Web.Controllers
                 return Redirect(ViewBag.WebsiteURL + "dynamics/add");
             }
         }
-        public JsonResult Save(DynamicForm modelRecord)
+        [HttpPost]
+        public JsonResult Save(DynamicFormMeta modelRecord)
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
@@ -101,10 +102,11 @@ namespace Web.Controllers
             ajaxResponse.Message = "Post Data Not Found";
             try
             {
-                if (User.Identity.IsAuthenticated)
+                if (!User.Identity.IsAuthenticated)
                 {
                     bool isAbleToAddOrUpdate = true;
-                    var Record = dbContext.DynamicForms.FirstOrDefault(o => o.Id != modelRecord.Id && o.Title.ToLower().Equals(modelRecord.Title.ToLower()) && o.IsDeleted == false);
+                    var Record = dbContext.DynamicForms.FirstOrDefault(o => o.Id != modelRecord.Id && o.Title.ToLower()
+                    .Equals(modelRecord.Title.ToLower()) && o.IsDeleted == false);
                     if (Record != null)
                     {
                         ajaxResponse.Message = "Title already exist in our records";
@@ -115,21 +117,78 @@ namespace Web.Controllers
                         bool isRecordWillAdded = false;
                         if (modelRecord.Id == 0)
                         {
+                            var dynamicFormModel = new DynamicForm()
+                            {
+                                Title = modelRecord.Title,
+                                UtccreatedDateTime = GetUtcDateTime(),
+                                CreatedDateTime = GetDateTime(),
+                                CreatedBy = 1,
+                                Status = EnumStatus.Enable,
+                                IsDeleted = false,
+
+                            };
                             isRecordWillAdded = true;
-                            modelRecord.CreatedDateTime = GetDateTime(dbContext);
-                            modelRecord.UtccreatedDateTime = GetUtcDateTime();
-                            modelRecord.CreatedBy = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                            dbContext.DynamicForms.Add(modelRecord);
+                            dbContext.DynamicForms.Add(dynamicFormModel);
+                            dbContext.SaveChanges();
+
+                            foreach (var input in modelRecord.Inputs)
+                            {
+
+                                var inputModel = new DynamicFormInput()
+                                {
+                                    DynamicFormId = dynamicFormModel.Id,
+                                    Name = input.Name,
+                                    SequenceOrder = input.SequenceOrder,
+                                    Type = input.Type,
+                                    IsRequired = input.IsRequired,
+                                    CreatedBy = 1,
+                                    CreatedDateTime = GetDateTime(),
+                                    UtccreatedDateTime = GetUtcDateTime(),
+                                    Status = EnumStatus.Enable,
+                                    IsDeleted = false,
+                                };
+                                dbContext.DynamicFormInputs.Add(inputModel);
+                                dbContext.SaveChanges();
+                                foreach (var attribute in input.Attributes)
+                                {
+                                    var attributeModel = new DynamicFormInputAttribute()
+                                    {
+                                        DynamicFormInputId = inputModel.Id,
+                                        AttrKey = attribute.AttrKey,
+                                        AttrValue = attribute.AttrValue,
+
+                                    };
+                                    dbContext.DynamicFormInputAttributes.Add(attributeModel);
+                                    
+                                }
+                                if (input.DropdownOpt.Count > 0)
+                                {
+                                    foreach (var item in input.DropdownOpt)
+                                    {
+                                        var dropdownOptModel = new DynamicFormInputDataSource()
+                                        {
+                                            DynamicFormInputId = inputModel.Id,
+                                            Key = item.Key,
+                                            Value = item.Value,
+                                        };
+                                        dbContext.DynamicFormInputDataSources.Add(dropdownOptModel);
+                                       
+                                    }
+                                }
+
+                            }
+
+                            dbContext.SaveChanges();
+
                         }
                         else
                         {
-
-                            modelRecord.UpdatedDateTime = GetDateTime(dbContext);
-                            modelRecord.UtcupdatedDateTime = GetUtcDateTime();
-                            modelRecord.UpdatedBy = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); ;
-                            dbContext.DynamicForms.Update(modelRecord);
+                            //modelRecord.UpdatedDateTime = GetDateTime(dbContext);
+                            //modelRecord.UtcupdatedDateTime = GetUtcDateTime();
+                            //modelRecord.UpdatedBy = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); ;
+                            //dbContext.DynamicForms.Update(modelRecord);
                         }
-                        dbContext.SaveChanges();
+                        //dbContext.SaveChanges();
                         if (isRecordWillAdded)
                         {
                             ajaxResponse.Message = "Form Added Successfully";

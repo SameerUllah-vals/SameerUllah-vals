@@ -3,11 +3,15 @@ using Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    options.JsonSerializerOptions.PropertyNamingPolicy = null
+    );
 
 builder.Services.AddDbContext<ValsTechnologiesContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDefault")));
-
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDefault")
+    ));
+ 
 
 var app = builder.Build();
 
@@ -20,7 +24,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

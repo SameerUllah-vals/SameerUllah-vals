@@ -40,4 +40,8 @@ public partial class DynamicFormInput
     public int? DeletedBy { get; set; }
 
     public virtual DynamicForm DynamicForm { get; set; } = null!;
+
+    public virtual ICollection<DynamicFormInputAttribute> DynamicFormInputAttributes { get; } = new List<DynamicFormInputAttribute>();
+
+    public virtual ICollection<DynamicFormInputDataSource> DynamicFormInputDataSources { get; } = new List<DynamicFormInputDataSource>();
 }
