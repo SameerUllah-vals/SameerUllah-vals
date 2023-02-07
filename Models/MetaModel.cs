@@ -40,4 +40,26 @@ namespace Web.Models
         public List<DynamicFormInputDataSource> DropdownOpt { get; set; } = new List<DynamicFormInputDataSource>();
 
     }
+
+    public class Grid
+    {
+        public string Data { get; set; } = "Id";
+        public bool searchable { get; set; } = false;
+        public bool bSortable { get; set; } = true;
+        public bool bVisible { get; set; } = false;
+
+        
+    }
+
+    public class GridDetails
+    {
+        public string Data { get; set; }
+    }
+
+    public class DynamicFormMasterMeta
+    {
+        public DynamicForm DynamicForm { get; set; }
+        public DynamicFormMaster DynamicFormMaster { get; set; }
+    }
+
 }

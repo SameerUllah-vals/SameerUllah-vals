@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
-    options.JsonSerializerOptions.PropertyNamingPolicy = null
+         options.JsonSerializerOptions.PropertyNamingPolicy = null
     );
 
 builder.Services.AddDbContext<ValsTechnologiesContext>(options =>

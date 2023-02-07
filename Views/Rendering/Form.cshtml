@@ -1,9 +1,13 @@
-﻿@model DynamicForm
-
+﻿@model DynamicFormMasterMeta
+@using static Web.Helpers.ApplicationHelper
 <script>
 
-    const data = '@Html.Raw(Json.Serialize(Model))'
-    console.log(JSON.parse(data))
+    const data = '@Html.Raw(Json.Serialize(Model.DynamicForm))'
+    @if(Model.DynamicFormMaster != null)
+    {
+        @: const MasterData = '@Html.Raw(Json.Serialize(Model.DynamicFormMaster))'
+    }
+
 </script>
 
 <div class="d-flex flex-column-fluid">
@@ -11,7 +15,7 @@
     <div id="rawDiv" class="container-xxl">
         <div class="d-flex flex-column flex-lg-row">
             <div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
-                <form class="" asp-controller="Rendering" asp-action="Save" id="DynamicForm" autocomplete="off"
+                <form class="" asp-controller="Rendering" asp-action="Save" id="DynamicForm" autocomplete="off" 
                       data-ajax-begin="OnFormBegin" data-ajax-complete="OnFormComplete"
                       data-ajax-failure="OnFormFailure" data-ajax-success="OnFormSuccess"
                       data-ajax="true" data-ajax-method="POST" enctype="multipart/form-data">
@@ -27,14 +31,17 @@
                         <div class="card-body pt-0">
                             <div class="d-flex flex-column mb-15 fv-row">
                                 <input type="text" id="formId" name="formId" hidden />
-                                <div class="row" id="myid">
+                                <input type="text" id="RowId" name="RowId" hidden />
+                                <div class="row" id="master_row">
 
                                 </div>
                             </div>
-                            <div id="footer_btn">
-                                <button type="submit" class="btn btn-success">Save</button>
-                                <a class="btn btn-success">Save & Redirect</a>
-                                <a class="btn btn-primary " onClick="Reset()">Reset</a>
+                            <div id="footer_btn" style="float:right">
+                             
+                                <button type="button" class="btn btn-primary" onclick="window.history.go(-1)" >Back</button>
+                                <button type="reset" class="btn btn-warning " onClick="Reset()">Reset</button>                                
+                                <button type="submit" name="button" value="S-N" class="btn btn-success">Save & Redirect</button>
+                                <button type="submit" name="button" value="S" class="btn btn-success">Save</button>
                             </div>
                         </div>
 
@@ -52,52 +59,57 @@
 </div>
 
 
-
-<div id="meraForm"></div>
 @section LinkScriptSection{
+
     <script>
+        @if (ViewBag.PageType == EnumPageType.View)
+        {
+            @:DisableView();
+        }
         let json = JSON.parse(data)
         $("#formTitle").html(json.Title);
         $("#formId").val(json.Id);
-        for (let i = 0; i < json.DynamicFormInputs.length; i++) {
-            if (json.DynamicFormInputs[i].Type != "Dropdown") {
-                $('#myid').append(`  <div class="d-flex flex-column mb-6 fv-row col-4">
-                                                                                              <div class="fs-5 fw-bolder form-label mb-3 ">
-                                                                                                               ${json.DynamicFormInputs[i].Name}
-                                                                                                </div>
-                                                                    <input type='${json.DynamicFormInputs[i].Type}' name='d_${json.DynamicFormInputs[i].Id}'/>
-                            </div>`)
+        json.DynamicFormInputs.sort(dynamicSort("SequenceOrder")); 
+        json.DynamicFormInputs.map(function(record, index){
+            console.log(record)
+            if (record.Type != "Dropdown") {
+                $('#master_row').append(`<div class="d-flex flex-column mb-6 fv-row col-4">
+                    <div class="fs-5 fw-bolder form-label mb-3 ">${record.Name}</div>
+                                        <input type='${record.Type}' ${record.IsRequired ? "required data-val='true' data-val-required='this field is required.'" : ""} name='d_${record.Id}'/>
+                                                ${record.IsRequired ? '<span asp-validation-for="d_' + record.Id + '" class="text-danger"></span>' : ""}
+                </div>`)
             }
             else {
-                $('#myid').append(`
-                                                        <div class="d-flex flex-column mb-6 fv-row col-4" >
-                                                                <div class="fs-5 fw-bolder form-label mb-3 ">
-                                                                          ${json.DynamicFormInputs[i].Name}
-                                                                  </div>
-                                                  <select name="d_${json.DynamicFormInputs[i].Id}" data-control="select2"  class="form-select form-select-solid"  tabindex="-1">
-                                               </select>
-                                             </div>`)
+                $('#master_row').append(` 
+                    <div class="d-flex flex-column mb-6 fv-row col-4" >
+                    <div class="fs-5 fw-bolder form-label mb-3 ">
+                        ${record.Name}
+                     </div>
+                        <select name="d_${record.Id}" data-control="select2" ${record.IsRequired ? "data-val='true' data-val-required='this field is required.'" : ""}  class="form-select form-select-solid"  tabindex="-1">
+                </select>
+                         ${record.IsRequired ? '<span asp-validation-for="d_' + record.Id + '" class="text-danger"></span>' : ""}
+                </div>`)
             }
-
-            //<div class="d-flex flex-column mb-6 fv-row col-4" > </div>
-
-
-            for (let j = 0; j < json.DynamicFormInputs[i].DynamicFormInputAttributes.length; j++) {
-                let attr = json.DynamicFormInputs[i].DynamicFormInputAttributes
-                $(`[name='d_${json.DynamicFormInputs[i].Id}']`).attr(attr[j].AttrKey, attr[j].AttrValue)
+            record.DynamicFormInputAttributes.map(function(attributeRecord, index){
+                if (attributeRecord.AttrKey != "id")
+                    $(`[name='d_${record.Id}']`).attr(attributeRecord.AttrKey, attributeRecord.AttrValue)
+            })
+            record.DynamicFormInputDataSources.map(function(dataSourceRecord, index){
+                let option = ` <option value="${dataSourceRecord.Key}">
+                                ${dataSourceRecord.Value}</option>`
+                $(`select[name=d_${record.Id}]`).append(option);
+            })
+        })       
+        $(document).ready(function(){
+            if (typeof (MasterData) !== "undefined"){
+                let dt_MasterData = JSON.parse(MasterData);
+                $("#RowId").val(dt_MasterData.Id);
+                $.each(dt_MasterData.DynamicFormMasterDetails, function (index, record) {
+                    $(`[name='d_${record.DynamicFormInputId}']`).val(record.DynamicFormInputValue);
+                })
+                $('select').trigger('change.select2');
             }
-
-            for (let z = 0; z < json.DynamicFormInputs[i].DynamicFormInputDataSources.length; z++) {
-                let option = ` <option value="${json.DynamicFormInputs[i].DynamicFormInputDataSources[z].Key}">
-                                                                                        ${json.DynamicFormInputs[i].DynamicFormInputDataSources[z].Value}</option>`
-                let ddlId = $(`select[name=d_${json.DynamicFormInputs[i].Id}]`).attr('id')
-                $(`#${ddlId}`).append(option);
-            }
-        }
-
-        function Reset() {
-            $('input[type="text"]').val('')
-        }
-
+            
+        })
     </script>
 }

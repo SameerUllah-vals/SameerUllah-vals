@@ -439,7 +439,7 @@
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                    alert(response.Message)
+                     OnFormSuccess(response);
                 },
                 error: function (err) {
                     alert(err.message);

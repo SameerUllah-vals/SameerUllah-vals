@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Web.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Web.Helpers
 {
@@ -232,5 +234,46 @@ namespace Web.Helpers
             public string TargetURL { get; set; }
             public object Data { get; set; }
         }
+
+        public static string Serialize<T>(this List<T> List) where T : class
+        {
+            return JsonConvert.SerializeObject(List, Formatting.Indented,
+                            new JsonSerializerSettings
+                            {
+                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                            });
+        }
+
+
+        public static string Serialize<T>(this T Object) where T : class
+        {
+            return JsonConvert.SerializeObject(Object, Formatting.Indented,
+                            new JsonSerializerSettings
+                            {
+                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                            });
+        }
+
+        public static List<T> ToJSON<T>(this List<T> genList) where T : class
+        {
+            var serializedData = JsonConvert.SerializeObject(genList, Formatting.Indented,
+                             new JsonSerializerSettings
+                             {
+                                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                             });
+            return JsonConvert.DeserializeObject<List<T>>(serializedData);
+        }
+
+        public static T ToJSON<T>(this T Record) where T : class
+        {
+            var serializedData = JsonConvert.SerializeObject(Record, Formatting.Indented,
+                             new JsonSerializerSettings
+                             {
+                                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                             });
+            return JsonConvert.DeserializeObject<T>(serializedData);
+        }
     }
+
+
 }

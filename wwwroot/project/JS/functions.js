@@ -109,6 +109,12 @@ var DisableView = function () {
     $('form').find("button").remove();
     $('form').removeAttr("action");
 }
+
+function Reset() {
+    $('form').find("input[type='text'],input[type='password'],textarea,input[type='checkbox'],input[type='radio'],input[type='datetime-local'],input[type='date'],select").each(function () {
+        $(this).val('');
+    });
+}
 var EnableDisableArea = function (area, object_type) {
     var main_context = $('form');
     if (area != "") {
@@ -137,7 +143,6 @@ var EnableDisableArea = function (area, object_type) {
     }
 }
 OnFormBegin = function () {
-    $("#loader").removeClass("hide-loader");
     EnableDisableArea("", "Disable");
 }
 OnFormComplete = function () {
@@ -305,9 +310,34 @@ $(document).ready(function () {
     }
 });
 
-
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a, b) {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
 function Guid() {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
+}
+
+
+function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
 }
