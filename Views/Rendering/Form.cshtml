@@ -75,7 +75,7 @@
             if (record.Type != "Dropdown") {
                 $('#master_row').append(`<div class="d-flex flex-column mb-6 fv-row col-4">
                     <div class="fs-5 fw-bolder form-label mb-3 ">${record.Name}</div>
-                                        <input type='${record.Type}' ${record.IsRequired ? "required data-val='true' data-val-required='this field is required.'" : ""} name='d_${record.Id}'/>
+                                                        <input type='${record.Type}' ${record.IsRequired ? "required data-val='true' data-val-required='this field is required.'" : ""} name='d_${record.Id}' ${record.Type == "radio" ? "onchange='changeRadio(this)'" : ""} />
                                                 ${record.IsRequired ? '<span asp-validation-for="d_' + record.Id + '" class="text-danger"></span>' : ""}
                 </div>`)
             }
@@ -99,7 +99,12 @@
                                 ${dataSourceRecord.Value}</option>`
                 $(`select[name=d_${record.Id}]`).append(option);
             })
-        })       
+        })
+        function changeRadio(thisRadio) { 
+            debugger;
+            let className = $(thisRadio).attr("class");
+            $("." + className).not(thisRadio).prop('checked', false)
+        }
         $(document).ready(function(){
             if (typeof (MasterData) !== "undefined"){
                 let dt_MasterData = JSON.parse(MasterData);
