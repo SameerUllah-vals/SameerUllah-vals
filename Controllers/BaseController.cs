@@ -16,6 +16,7 @@ namespace Web.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             ViewBag.Layout = "_M1Layout";
+            ViewBag.WebsiteURL = "https://localhost:44314";
             ViewBag.Navigation = dbContext.DynamicForms
                 .Where(x =>x.Status == EnumStatus.Enable && x.IsDeleted.Equals(false))
                 .ToList();

@@ -5,6 +5,7 @@ using static Web.Helpers.ApplicationHelper;
 
 namespace Web.Controllers
 {
+  
     public class DynamicsController : BaseController
     {
         public IActionResult Index()
@@ -12,52 +13,6 @@ namespace Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Listener()
-        {
-            try
-            {
-                var draw = Request.Form["draw"].FirstOrDefault();
-                var start = Request.Form["start"].FirstOrDefault();
-                var length = Request.Form["length"].FirstOrDefault();
-                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                var searchValue = Request.Form["search[value]"].FirstOrDefault();
-                int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                int skip = start != null ? Convert.ToInt32(start) : 0;
-                int recordsTotal = 0;
-                var Data = (from x in dbContext.DynamicForms.Where(x => !x.IsDeleted) select x);
-                if (!string.IsNullOrEmpty(sortColumn) || string.IsNullOrEmpty(sortColumnDirection))
-                {
-                    //Data = Data.Where(x => !x.IsDeleted).OrderBy(sortColumn + " " + sortColumnDirection);
-                }
-                if (!string.IsNullOrEmpty(searchValue))
-                {
-                    Data = Data.Where(m => m.Title.Contains(searchValue)
-                                                || m.Title.Contains(searchValue)
-                                                || m.Status.Contains(searchValue)
-                                                || m.CreatedDateTime.ToString().Contains(searchValue));
-                }
-                recordsTotal = Data.Count();
-                var resultList = Data.Skip(skip).Take(pageSize).ToList();
-                var resultData = from x in resultList.Where(x => !x.IsDeleted)
-                                 select new
-                                 {
-                                     x.Id,
-                                     x.Title,
-                                     x.Status,
-                                     CreatedDateTime = x.CreatedDateTime,
-                                     CreatedDateTimeString = x.CreatedDateTime.ToString(Website_Date_Time_Format),
-                                     UpdatedDateTime = !x.UpdatedDateTime.HasValue ? "" : x.UpdatedDateTime.Value.ToString(Website_Date_Time_Format)
-                                 };
-
-                var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
-                return Ok(jsonData);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public DynamicForm GetRecord(int? id)
         {
             return dbContext.DynamicForms.FirstOrDefault(o => o.Id == id && o.IsDeleted == false);
@@ -274,5 +229,50 @@ namespace Web.Controllers
         {
             return Json(dbContext.States.Where(x => x.CountryId == Id && x.Status.Equals(EnumStatus.Enable) && !x.IsDeleted).Select(x => new { x.Id, x.Title }).ToList());
         }
-    }
+
+        [HttpPost]
+        public IActionResult Listener()
+		
+        {
+			try
+			{
+				//string RoleName = User.FindFirstValue("RoleName").ToLower();
+				var draw = Request.Form["draw"].FirstOrDefault();
+				var start = Request.Form["start"].FirstOrDefault();
+				var length = Request.Form["length"].FirstOrDefault();
+				var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+				var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+				var searchValue = Request.Form["search[value]"].FirstOrDefault();
+				int pageSize = length != null ? Convert.ToInt32(length) : 0;
+				int skip = start != null ? Convert.ToInt32(start) : 0;
+
+				
+
+				var DynamicFormMasterData = dbContext.DynamicForms.Where(x => x.Status == EnumStatus.Enable && !x.IsDeleted)
+					.OrderByDescending(x => x.CreatedDateTime).AsQueryable();
+				//if (!string.IsNullOrEmpty(searchValue))
+				//{
+				//	DynamicFormMasterData = DynamicFormMasterData.Where(m =>
+				//								   m.DynamicFormMasterDetails.Where(x => x.DynamicFormInputValue.Contains(searchValue)).Count() > 0
+				//								|| m.Status.Contains(searchValue)
+				//								|| m.CreatedDateTime.ToString().Contains(searchValue)
+				//								|| m.UpdatedDateTime.ToString().Contains(searchValue));
+				//}
+				var DynamicDataList = DynamicFormMasterData.Select(x => new
+                {
+                    Id = x.Id,
+                    FormName = x.Title,
+                    NumberOfInputs = x.DynamicFormInputs.Count,
+                }).ToList();
+
+				var jsonData = new { draw = draw, recordsFiltered = DynamicDataList.Count, recordsTotal = DynamicDataList.Count, data = DynamicDataList.Skip(skip).Take(pageSize) };
+				return Ok(jsonData);
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+	}
 }

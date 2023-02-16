@@ -1,4 +1,5 @@
 ﻿@model DynamicForm
+
 <div class="post d-flex flex-column-fluid" id="kt_post">
 
     <div id="kt_content_container" class="container-xxl">
@@ -38,7 +39,6 @@
                                 </div>
 
                                 <div class="table-responsive">
-
                                     <!--begin::Table-->
                                     <table id="inputTable" data-table="parent" class="inputTable table align-middle table-row-bordered fw-bold fs-6 gy-5">
 
@@ -53,55 +53,228 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr data-item="1">
-                                                <td>
-                                                    <select name="type" data-control="select2" data-hide-search="true" data-placeholder="Select a types..." class="form-select form-select-solid select2-hidden-accessible" data-select2-id="select2-data-10-1ti8" tabindex="-1" aria-hidden="true">
-                                                        <option value="" data-select2-id="select2-data-12-ifr7">Select a type...</option>
-                                                        <option value="1" data-select2-id="select2-data-73-c93m">text</option>
-                                                        <option value="2" data-select2-id="select2-data-74-l1bx">number</option>
-                                                        <option value="3" data-select2-id="select2-data-75-vbt5">password</option>
-                                                        <option value="4" data-select2-id="select2-data-76-rtwp">email</option>
-                                                        <option value="5" data-select2-id="select2-data-77-rtwp">hidden</option>
-                                                        <option value="6" data-select2-id="select2-data-78-rtwp">Dropdown</option>
-                                                        <option value="7" data-select2-id="select2-data-79-rtwp">checkbox</option>
-                                                        <option value="8" data-select2-id="select2-data-80-rtwp">radio</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="DynamicFormInputs[0].SequenceOrder" class="form-control form-control-solid" value="" />
-                                                </td>
-                                                <td>
-                                                    <label class="form-check form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" value="" />
-                                                    </label>
-                                                </td>
-                                                <td class="text-end">
-                                                    <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3">
+                                            @{
+                                                string modal = "";
+                                            }
+                                            @if (Model.Id > 0)
+                                            {
 
-                                                        <span class="svg-icon svg-icon-3">
-                                                            <i class="fa fa-trash"></i>
-                                                        </span>
+                                                foreach (var input in Model.DynamicFormInputs)
+                                                {
+                                                    Guid id = @Guid.NewGuid();
+                                                    <tr data-itemid="@id">
+                                                        <td>
+                                                            <select disabled name="type" data-control="select2" data-hide-search="true" data-placeholder="Select a types..." class="form-select form-select-solid select2-hidden-accessible" data-select2-id="select2-data-10-1ti8" tabindex="-1" aria-hidden="true">
+                                                                <option value="" data-select2-id="select2-data-12-ifr7">Select a type...</option>
+                                                                <option value="1" data-select2-id="select2-data-73-c93m">text</option>
+                                                                <option value="2" data-select2-id="select2-data-74-l1bx">number</option>
+                                                                <option value="3" data-select2-id="select2-data-75-vbt5">password</option>
+                                                                <option value="4" data-select2-id="select2-data-76-rtwp">email</option>
+                                                                <option value="5" data-select2-id="select2-data-77-rtwp">hidden</option>
+                                                                <option value="6" data-select2-id="select2-data-78-rtwp">Dropdown</option>
+                                                                <option value="7" data-select2-id="select2-data-79-rtwp">checkbox</option>
+                                                                <option value="8" data-select2-id="select2-data-80-rtwp">radio</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="@input.Name" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="DynamicFormInputs[0].SequenceOrder" class="form-control form-control-solid" value="@input.SequenceOrder" />
+                                                        </td>
+                                                        <td>
+                                                            <label class="form-check form-check-custom form-check-solid">
+                                                                @if (input.IsRequired)
+                                                                {
+                                                                    <input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" checked value="" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" value="" />
+                                                                }
+                                                            </label>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3">
 
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-light-primary me-auto showAttrModal" data-itemid="1">Add Attribute</button>
+                                                                <span class="svg-icon svg-icon-3">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </span>
 
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-light-primary me-auto btnAddInput">
-                                                        <span class="svg-icon svg-icon-3">
-                                                            <i class="fa fa-plus"></i>
-                                                        </span>
-                                                    </a>
-                                                </td>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-light-primary me-auto showAttrModal" data-itemid="1">Add Attribute</button>
+
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-light-primary me-auto btnAddInput">
+                                                                <span class="svg-icon svg-icon-3">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    var rows = "";
+                                                    foreach (var attr in input.DynamicFormInputAttributes)
+                                                    {
+                                                        rows += $@"   <tr>
+                                                                        <td>
+                                                             <input type='text' value='{attr.AttrKey}' />
+                                                                         </td>
+                                            <td>
+                                            <input type='text'  value='{attr.AttrValue}' />
+                                            </td>
+                                            <td>
+                                            <button type='button' class='btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3' onclick='AddAttributeRow(this)'>
+
+                                            <span class='svg-icon svg-icon-3'>
+                                            <i class='fa fa-plus'></i>
+                                            </span>
+
+                                            </button>
+
+                                            </td>
+                                            <td>
+                                            <button type='button' class='btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3' >
+
+                                            <span class='svg-icon svg-icon-3'>
+                                            <i class='fa fa-trash'></i>
+                                            </span>
+
+                                            </button>
+                                            </td>
+
+                                            </tr>";
+                                                    }
+
+
+                                                    modal += $@"
+                                            <div class='modal fade {id} tabindex='-1' data-item='{id}' aria-hidden='true'>
+                                            <div class='modal-dialog modal-dialog-centered mw-650px'>
+                                            <div class='modal-content'>
+
+                                            <div class='modal-header'>
+
+                                            <h2>Add Attribute</h2>
+
+
+                                            <div class='btn btn-sm btn-icon btn-active-color-primary' data-bs-dismiss='modal'>
+
+                                            <span class='svg-icon svg-icon-1'>
+                                            <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'>
+                                            <rect opacity='0.5' x='6' y='17.3137' width='16' height='2' rx='1' transform='rotate(-45 6 17.3137)' fill='black' />
+                                            <rect x='7.41422' y='6' width='16' height='2' rx='1' transform='rotate(45 7.41422 6)' fill='black' />
+                                            </svg>
+                                            </span>
+
+                                            </div>
+
+                                            </div>
+
+
+                                            <div class='modal-body scroll-y mx-5 mx-xl-15 my-7'>
+
+                                            <form  class='form' action='#'>
+
+                                            <table data-item='{id}_attr' data-table='child' class='table align-middle table-row-dashed fw-bold fs-6 gy-5'>
+
+                                            <thead>
+                                            <tr class='text-start text-muted fw-bolder fs-7 text-uppercase gs-0'>
+                                            <th class='pt-0'>Attribute Name</th>
+                                            <th class='pt-0'>Attribute Value</th>
+                                            <th class='pt-0'>Action</th>
                                             </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                                            {Html.Raw(rows)}
+
+
+
+                                            </tbody>
+
+                                            </table>
+                                            <table data-item='{id}_ddlTable' data-table='child' style='display:none;' class='ddl-table table align-middle table-row-dashed fw-bold fs-6 gy-5'>
+
+                                            <thead>
+                                            <tr class='text-start text-muted fw-bolder fs-7 text-uppercase gs-0'>
+                                            <th class='pt-0'>Dropdown Text</th>
+                                            <th class='pt-0'>Dropdown Text</th>
+                                            <th class=pt-0>Action</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                                                                           
+                                            </tbody>
+
+                                            </table>
+                                            </form>
+
+                                            </div>
+
+                                            </div>
+
+                                            </div>
+
+                                            </div>";
+                                                    ViewBag.model = modal;
+
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <tr data-itemid="1">
+                                                    <td>
+                                                        <select name="type" data-control="select2" data-hide-search="true" data-placeholder="Select a types..." class="form-select form-select-solid select2-hidden-accessible" data-select2-id="select2-data-10-1ti8" tabindex="-1" aria-hidden="true">
+                                                            <option value="" data-select2-id="select2-data-12-ifr7">Select a type...</option>
+                                                            <option value="1" data-select2-id="select2-data-73-c93m">text</option>
+                                                            <option value="2" data-select2-id="select2-data-74-l1bx">number</option>
+                                                            <option value="3" data-select2-id="select2-data-75-vbt5">password</option>
+                                                            <option value="4" data-select2-id="select2-data-76-rtwp">email</option>
+                                                            <option value="5" data-select2-id="select2-data-77-rtwp">hidden</option>
+                                                            <option value="6" data-select2-id="select2-data-78-rtwp">Dropdown</option>
+                                                            <option value="7" data-select2-id="select2-data-79-rtwp">checkbox</option>
+                                                            <option value="8" data-select2-id="select2-data-80-rtwp">radio</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="DynamicFormInputs[0].SequenceOrder" class="form-control form-control-solid" value="" />
+                                                    </td>
+                                                    <td>
+                                                        <label class="form-check form-check-custom form-check-solid">
+                                                            <input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" value="" />
+                                                        </label>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3">
+
+                                                            <span class="svg-icon svg-icon-3">
+                                                                <i class="fa fa-trash"></i>
+                                                            </span>
+
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-light-primary me-auto showAttrModal" data-itemid="1">Add Attribute</button>
+
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-light-primary me-auto btnAddInput">
+                                                            <span class="svg-icon svg-icon-3">
+                                                                <i class="fa fa-plus"></i>
+                                                            </span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
 
                                         </tbody>
-
                                     </table>
 
                                 </div>
@@ -125,7 +298,12 @@
         </div>
 
     </div>
-    <div class="customContainer"></div>
+   
+        @if (ViewBag.model != null)
+        {
+        <div class="customContainer"> @Html.Raw(ViewBag.model)</div>
+        }
+   
 
 </div>
 
@@ -137,133 +315,133 @@
         function CreateDynamicModal(button) {
             let row = button.parent().parent();
             let modalClass = button.attr('data-itemid')
-            if (document.getElementsByClassName(modalClass).length == 0) {
+            if ($("." + modalClass).length == 0) {
                 const modalHtml = `	<div class="modal fade ${modalClass} tabindex="-1" data-item="${modalClass}" aria-hidden="true">
-                                                                    <!--begin::Modal dialog-->
-                                                                    <div class="modal-dialog modal-dialog-centered mw-650px">
-                                                                        <!--begin::Modal content-->
-                                                                        <div class="modal-content">
-                                                                            <!--begin::Modal header-->
-                                                                            <div class="modal-header">
-                                                                                <!--begin::Modal title-->
-                                                                                <h2>Add Attribute</h2>
-                                                                                <!--end::Modal title-->
-                                                                                <!--begin::Close-->
-                                                                                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                                                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                                                    <span class="svg-icon svg-icon-1">
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
-                                                                                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
-                                                                                        </svg>
-                                                                                    </span>
-                                                                                    <!--end::Svg Icon-->
-                                                                                </div>
-                                                                                <!--end::Close-->
-                                                                            </div>
-                                                                            <!--end::Modal header-->
-                                                                            <!--begin::Modal body-->
-                                                                            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                                                                                <!--begin::Form-->
-                                                                                <form  class="form" action="#">
+                                                                            <!--begin::Modal dialog-->
+                                                                            <div class="modal-dialog modal-dialog-centered mw-650px">
+                                                                                <!--begin::Modal content-->
+                                                                                <div class="modal-content">
+                                                                                    <!--begin::Modal header-->
+                                                                                    <div class="modal-header">
+                                                                                        <!--begin::Modal title-->
+                                                                                        <h2>Add Attribute</h2>
+                                                                                        <!--end::Modal title-->
+                                                                                        <!--begin::Close-->
+                                                                                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                                            <span class="svg-icon svg-icon-1">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+                                                                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+                                                                                                </svg>
+                                                                                            </span>
+                                                                                            <!--end::Svg Icon-->
+                                                                                        </div>
+                                                                                        <!--end::Close-->
+                                                                                    </div>
+                                                                                    <!--end::Modal header-->
+                                                                                    <!--begin::Modal body-->
+                                                                                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                                                                                        <!--begin::Form-->
+                                                                                        <form  class="form" action="#">
 
-                                                                                                            <table data-item="${row.attr('data-item')}_attr" data-table="child" class="table align-middle table-row-dashed fw-bold fs-6 gy-5">
+                                                                                                                    <table data-item="${row.attr('data-item')}_attr" data-table="child" class="table align-middle table-row-dashed fw-bold fs-6 gy-5">
 
-                                                                                                <thead>
-                                                                                                    <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                                                                                                        <th class="pt-0">Attribute Name</th>
-                                                                                                        <th class="pt-0">Attribute Value</th>
-                                                                                                        <th class="pt-0">Action</th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                    <tr>
-                                                                                                        <td>
-                                                                                                            <input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" onclick="AddAttributeRow(this)">
+                                                                                                        <thead>
+                                                                                                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                                                                                                <th class="pt-0">Attribute Name</th>
+                                                                                                                <th class="pt-0">Attribute Value</th>
+                                                                                                                <th class="pt-0">Action</th>
+                                                                                                            </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                            <tr>
+                                                                                                                <td>
+                                                                                                                    <input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
+                                                                                                                </td>
+                                                                                                                <td>
+                                                                                                                    <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+                                                                                                                </td>
+                                                                                                                <td>
+                                                                                                                    <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" onclick="AddAttributeRow(this)">
+
+                                                                                                                        <span class="svg-icon svg-icon-3">
+                                                                                                                            <i class="fa fa-plus"></i>
+                                                                                                                        </span>
+
+                                                                                                                    </button>
+
+                                                                                                                </td>
+                                                                                                                <td>
+                                                                                                                             <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
 
                                                                                                                 <span class="svg-icon svg-icon-3">
-                                                                                                                    <i class="fa fa-plus"></i>
+                                                                                                                    <i class="fa fa-trash"></i>
                                                                                                                 </span>
 
                                                                                                             </button>
+                                                                                                                </td>
 
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                                     <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
-
-                                                                                                        <span class="svg-icon svg-icon-3">
-                                                                                                            <i class="fa fa-trash"></i>
-                                                                                                        </span>
-
-                                                                                                    </button>
-                                                                                                        </td>
-
-                                                                                                    </tr>
+                                                                                                            </tr>
 
 
 
-                                                                                                </tbody>
+                                                                                                        </tbody>
 
-                                                                                            </table>
-                                                                                                    <table data-item="${row.attr('data-item')}_ddlTable" data-table="child" style="display:none;" class="ddl-table table align-middle table-row-dashed fw-bold fs-6 gy-5">
+                                                                                                    </table>
+                                                                                                            <table data-item="${row.attr('data-item')}_ddlTable" data-table="child" style="display:none;" class="ddl-table table align-middle table-row-dashed fw-bold fs-6 gy-5">
 
-                                                                                                                        <thead>
-                                                                                                                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                                                                                                                                <th class="pt-0">Dropdown Text</th>
+                                                                                                                                <thead>
+                                                                                                                                    <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
                                                                                                                                         <th class="pt-0">Dropdown Text</th>
-                                                                                                                                <th class="pt-0">Action</th>
+                                                                                                                                                <th class="pt-0">Dropdown Text</th>
+                                                                                                                                        <th class="pt-0">Action</th>
 
-                                                                                                                            </tr>
-                                                                                                                        </thead>
-                                                                                                                        <tbody>
-                                                                                                                            <tr>
-                                                                                                                                <td>
-                                                                                                                                    <input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
-                                                                                                                                </td>
-                                                                                                                                <td>
-                                                                                                                                    <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
-                                                                                                                                </td>
-                                                                                                                                <td>
-                                                                                                                                    <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" onclick="AddAttributeRow(this)">
+                                                                                                                                    </tr>
+                                                                                                                                </thead>
+                                                                                                                                <tbody>
+                                                                                                                                    <tr>
+                                                                                                                                        <td>
+                                                                                                                                            <input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                            <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                            <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" onclick="AddAttributeRow(this)">
+
+                                                                                                                                                <span class="svg-icon svg-icon-3">
+                                                                                                                                                    <i class="fa fa-plus"></i>
+                                                                                                                                                </span>
+
+                                                                                                                                            </button>
+
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                                     <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
 
                                                                                                                                         <span class="svg-icon svg-icon-3">
-                                                                                                                                            <i class="fa fa-plus"></i>
+                                                                                                                                            <i class="fa fa-trash"></i>
                                                                                                                                         </span>
 
                                                                                                                                     </button>
+                                                                                                                                        </td>
 
-                                                                                                                                </td>
-                                                                                                                                <td>
-                                                                                                                                             <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
-
-                                                                                                                                <span class="svg-icon svg-icon-3">
-                                                                                                                                    <i class="fa fa-trash"></i>
-                                                                                                                                </span>
-
-                                                                                                                            </button>
-                                                                                                                                </td>
-
-                                                                                                                            </tr>
+                                                                                                                                    </tr>
 
 
-                                                                                                                        </tbody>
+                                                                                                                                </tbody>
 
-                                                                                                                    </table>
-                                                                                </form>
-                                                                                <!--end::Form-->
+                                                                                                                            </table>
+                                                                                        </form>
+                                                                                        <!--end::Form-->
+                                                                                    </div>
+                                                                                    <!--end::Modal body-->
+                                                                                </div>
+                                                                                <!--end::Modal content-->
                                                                             </div>
-                                                                            <!--end::Modal body-->
-                                                                        </div>
-                                                                        <!--end::Modal content-->
-                                                                    </div>
-                                                                    <!--end::Modal dialog-->
-                                                                </div>`
+                                                                            <!--end::Modal dialog-->
+                                                                        </div>`
                 $('.customContainer').append(modalHtml);
 
             }
@@ -282,80 +460,79 @@
                 $("." + modalClass).modal('show');
             }
 
-
         }
 
         //add attribute row in a modal attribute table
         function AddAttributeRow(button) {
             const tableRow = `<tr>
-                                                                                        <td>
-                                                                                            <input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
-                                                                                                </td>
-                                                                                                  <td>
-                                                                                                <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
-                                                                                                </td>
-                                                                                              <td>
-                                                                                                        <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" onclick="AddAttributeRow(this)">
-
-                                                                                                                        <span class="svg-icon svg-icon-3">
-                                                                                                                            <i class="fa fa-plus"></i>
-                                                                                                                        </span>
-
-                                                                                                                    </button>
-                                                                                                                </td>
-                                                                                                                <td>
-                                                                                                                     <button type="button" class="btn-remove btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
-
-                                                                                                        <span class="svg-icon svg-icon-3">
-                                                                                                            <i class="fa fa-trash"></i>
-                                                                                                        </span>
-
-                                                                                                    </button>
+                                                                                                <td>
+                                                                                                    <input type="text" name="DynamicFormInputs[0].Type" class="form-control form-control-solid" value="" />
                                                                                                         </td>
-                                                                                                            </tr>`
+                                                                                                          <td>
+                                                                                                        <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+                                                                                                        </td>
+                                                                                                      <td>
+                                                                                                                <button type="button" class="btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" onclick="AddAttributeRow(this)">
+
+                                                                                                                                <span class="svg-icon svg-icon-3">
+                                                                                                                                    <i class="fa fa-plus"></i>
+                                                                                                                                </span>
+
+                                                                                                                            </button>
+                                                                                                                        </td>
+                                                                                                                        <td>
+                                                                                                                             <button type="button" class="btn-remove btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3" >
+
+                                                                                                                <span class="svg-icon svg-icon-3">
+                                                                                                                    <i class="fa fa-trash"></i>
+                                                                                                                </span>
+
+                                                                                                            </button>
+                                                                                                                </td>
+                                                                                                                    </tr>`
             $(button).parent().parent().after(tableRow);
         }
 
         //generate attribute row in input table
         $(document).on('click', '.btnAddInput', function () {
             const inputHtml = `	<tr data-item="${Guid()}">
-                                                                                                <td>
-                                                                                                                <select name="cars" class="ddl form-select form-select-solid">
-                                                                                                                      <option selected value="select">Select a type...</option>
-                                                                                                                      <option value="text">text</option>
-                                                                                                                      <option value="number">number</option>
-                                                                                                                      <option value="password">password</option>
-                                                                                                                      <option value="email">email</option>
-                                                                                                                      <option value="hidden">hidden</option>
-                                                                                                                      <option value="Dropdown">Dropdown</option>
-                                                                                                                      <option value="checkbox">checkbox</option>
-                                                                                                                      <option value="radio">radio</option>
-                                                                                                               </select>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input type="text" name="DynamicFormInputs[0].SequenceOrder" class="form-control form-control-solid" value="" />
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <label class="form-check form-check-custom form-check-solid">
-                                                                                                        <input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" value="1" />
-                                                                                                    </label>
-                                                                                                </td>
-                                                                                                <td class="text-end">
-                                                                                                    <button type="button" class="btn-remove btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3 btn-remove" >
+                                                                                                        <td>
+                                                                                                                        <select name="cars" class="ddl form-select form-select-solid">
+                                                                                                                              <option selected value="select">Select a type...</option>
+                                                                                                                              <option value="text">text</option>
+                                                                                                                              <option value="number">number</option>
+                                                                                                                              <option value="password">password</option>
+                                                                                                                              <option value="email">email</option>
+                                                                                                                              <option value="hidden">hidden</option>
+                                                                                                                              <option value="Dropdown">Dropdown</option>
+                                                                                                                              <option value="checkbox">checkbox</option>
+                                                                                                                              <option value="radio">radio</option>
+                                                                                                                       </select>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <input type="text" name="DynamicFormInputs[0].Name" class="form-control form-control-solid" value="" />
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <input type="text" name="DynamicFormInputs[0].SequenceOrder" class="form-control form-control-solid" value="" />
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <label class="form-check form-check-custom form-check-solid">
+                                                                                                                <input class="form-check-input" type="checkbox" name="DynamicFormInputs[0].IsRequired" value="1" />
+                                                                                                            </label>
+                                                                                                        </td>
+                                                                                                        <td class="text-end">
+                                                                                                            <button type="button" class="btn-remove btn btn-icon btn-flex btn-active-light-primary w-30px h-30px me-3 btn-remove" >
 
-                                                                                                        <span class="svg-icon svg-icon-3">
-                                                                                                            <i class="fa fa-trash"></i>
-                                                                                                        </span>
+                                                                                                                <span class="svg-icon svg-icon-3">
+                                                                                                                    <i class="fa fa-trash"></i>
+                                                                                                                </span>
 
-                                                                                                    </button>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                            <button type="button" class="btn btn-light-primary me-auto showAttrModal" data-itemid='${Guid()}'>Add Attribute</button>
-                                                                                                </td>
-                                                                                            </tr>`
+                                                                                                            </button>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                                    <button type="button" class="btn btn-light-primary me-auto showAttrModal" data-itemid='${Guid()}'>Add Attribute</button>
+                                                                                                        </td>
+                                                                                                    </tr>`
             $(this).parent().parent().after(inputHtml);
 
         });
@@ -363,6 +540,10 @@
         $(document).on('click', 'button.showAttrModal', function () {
             CreateDynamicModal($(this));
         });
+
+        function FillAttributeModelOnEdit(inputRow) {
+            let inputRowId = $(inputRow).find('data-item')
+        }
 
         //remove row from table
         $(document).on('click', 'button.btn-remove', function () {
@@ -405,7 +586,6 @@
                     attributeArr.push({
                         AttrKey: $(attrRow).find('td:eq(0) input').val(),
                         AttrValue: $(attrRow).find('td:eq(1) input').val()
-
                     });
 
                 });
@@ -439,7 +619,7 @@
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                     OnFormSuccess(response);
+                    OnFormSuccess(response);
                 },
                 error: function (err) {
                     alert(err.message);

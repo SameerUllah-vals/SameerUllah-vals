@@ -1,11 +1,11 @@
 ﻿<script>
     $(document).ready(function () {
-       
+
         initDataTable();
-       
+
     })
 
-    function initDataTable(){
+    function initDataTable() {
         try {
             var table = $(".display").DataTable({
                 "processing": true,
@@ -16,40 +16,36 @@
                 "searchable": true,
                 "filter": true,
                 "ajax": {
-                    "url": "@ViewBag.WebsiteURL/Rendering/Listener?formid=" + getUrlVars()["Id"],
-                    "type": "post",
-                    "datatype": "json",
-                     "dataSrc": function ( json ) {
-                        debugger;
-                        console.log(json);
-                        return json.data;
-                    }    
+                    "url": "@ViewBag.WebsiteURL/Dynamics/Listener",
+                    "type": "POST",                 
+                    "datatype": "json"
                 },
-                "columnDefs": [{
-                    "targets": [0],
-                    "visible": false,
-                    "searchable": false,
-                    "defaultContent": "-"
-                }],
-                "columns": [
+                    "columnDefs": [{
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false,
+                        "defaultContent": "-"
+                    }],
+                    "columns": [
     @Html.Raw(ViewBag.DataTableColumns)
-                    ],
-                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                        ],
+                    "fnCreatedRow": function (nRow, aData, iDataIndex) {
     @if (ViewBag.DataTableActionColumn != null)
     {
         @:var ActionHTML = "<div class='demo-nifty-btn'>";
         if (ViewBag.AllowViewing != null)
         {
-            @:ActionHTML += "<a href='@ViewBag.WebsiteURL/Rendering/View?FormId=" + $("#FormId").val() + "&RowId=" + aData.Id + "' class='btn btn-primary btn-sm'><i class='fa fa-eye'></i></a> ";
+            @:ActionHTML += "<a href='@ViewBag.WebsiteURL/Dynamics/View?id =" + aData.Id + "' class='btn btn-primary btn-sm'><i class='fa fa-eye'></i></a> ";
+
         }
         if (ViewBag.AllowEditing != null)
         {
-            @:ActionHTML += "<a href='@ViewBag.WebsiteURL/Rendering/Edit?FormId=" + $("#FormId").val() + "&RowId=" + aData.Id + "' class='btn btn-primary btn-sm ml-1'><i class='fa fa-edit'></i></a> ";
+            @:ActionHTML += "<a href='@ViewBag.WebsiteURL/Dynamics/Edit?id=" + aData.Id + "' class='btn btn-primary btn-sm ml-1'><i class='fa fa-edit'></i></a> ";
 
         }
         if (ViewBag.AllowDeleting != null)
         {
-            @:ActionHTML += "<a data-href='@ViewBag.WebsiteURL/Rendering/Delete?' data-id='"+aData.Id+"' class='btn btn-danger btn-sm remove-row ml-1' style='color:white'><i class='fa fa-trash'></i></a>";
+            @:ActionHTML += "<a data-href='@ViewBag.WebsiteURL/Dynamics/Delete?' data-id='" + aData.Id + "' class='btn btn-danger btn-sm remove-row ml-1' style='color:white'><i class='fa fa-trash'></i></a>";
 
         }
         @:ActionHTML += "</div>";
@@ -57,15 +53,15 @@
         @:console.log(nRow)
         @:$(nRow).append('<td>' + ActionHTML + '</td>');
     }
-                    },
-                "lengthMenu": [[10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000], [10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000]]
-            });
-  
-               
-           }
+                        },
+                    "lengthMenu": [[10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000], [10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000]]
+                });
+
+
+        }
         catch (e) {
             console.log(e);
         }
     }
-   
+
 </script>

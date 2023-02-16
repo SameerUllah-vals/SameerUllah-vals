@@ -28,6 +28,7 @@ namespace Web.Controllers
             DynamicFormMasterMeta Record = new DynamicFormMasterMeta();
             Record.DynamicForm = dbContext.DynamicForms.FirstOrDefault(x => x.Id == FormId && x.Status == EnumStatus.Enable && x.IsDeleted == false).ToJSON();
             Record.DynamicFormMaster = dbContext.DynamicFormMasters.FirstOrDefault(x => x.Id == RowId).ToJSON();
+            
             return Record;
         }
 

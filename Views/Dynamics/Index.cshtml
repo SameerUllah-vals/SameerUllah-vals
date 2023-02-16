@@ -1,30 +1,68 @@
-﻿
+﻿@{
+	string DataTableColumns = "{ \"data\": \"Id\",\"searchable\": false,\"bSortable\": true,\"bVisible\": false},{ \"data\": \"FormName\"},{ \"data\": \"NumberOfInputs\"}";
+	ViewBag.DataTableActionColumn = "2";
+	ViewBag.DataTableColumns = DataTableColumns;
+}
+@model int
+@{
+	ViewBag.AllowAdding = true;
+	ViewBag.AllowEditing = true;
+	ViewBag.AllowViewing = true;
+	ViewBag.AllowDeleting = true;
+}
 
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container-xxl">
+		<!--begin::Card-->
+		<div class="card">
+			<!--begin::Card header-->
+			<div class="card-header border-0 pt-6">
+				<!--begin::Card title-->
+				<div class="card-title">
+				</div>
+				<!--begin::Card title-->
+			</div>
+			<input type="hidden" id="FormId" value="@Model" />
+			<!--end::Card header-->
+			<!--begin::Card body-->
+			<div class="card-body pt-0">
+				<!--begin::Table-->
+				<!--begin::Table-->
+				<div class="table-responsive">
 
+					<table class="display table align-middle table-row-bordered fw-bold fs-6 gy-5">
 
-<div class="table-responsive">
+					<thead>
+						<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+							<th class="pt-0">Id</th>
+							<th class="pt-0">Form Name</th>
+							<th class="pt-0">Number of Inputs</th>
+							<th class="pt-0">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-item="1">
+						</tr>
+					</tbody>
 
-    <!--begin::Table-->
-    <table id="fromListTable" data-table="parent" class="inputTable table align-middle table-row-bordered fw-bold fs-6 gy-5">
-
-        <thead>
-            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                <th class="pt-0">Form Name</th>
-                <th class="pt-0">Number of Inputs</th>
-                <th class="pt-0">Sequence order</th>
-                <th class="pt-0">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-item="1">
-              
-            </tr>
-
-        </tbody>
-
-    </table>
+				</table>
 
 </div>
+				<!--end::Table-->
+			</div>
+			<!--end::Card body-->
+		</div>
+		<!--end::Card-->
+
+	</div>
+	<!--end::Container-->
+</div>
+@section LinkScriptSection{
+	@await Html.PartialAsync("JScript")
+}
+
+
 
 
 
